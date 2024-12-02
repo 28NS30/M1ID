@@ -51,7 +51,7 @@ void train() {
             sum += (trainingY[dataPoint] - predicted[dataPoint]) * input[dataPoint][weight];
         }
         // Example: Calculate gradient (you may need a proper formula here)
-        gradient = -2*sum/independentVars; // Update as needed
+        gradient = -sum; // Update as needed
         cout << gradient;
         cout << endl;
         coefficients[weight] -= stepSize * gradient;
