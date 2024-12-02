@@ -6,9 +6,13 @@
 #include <random>
 using namespace std;
 
-int stepSize = 1;
-
+double stepSize = 0.1;
+vector<vector <double>> stuff = {{1, 2}, {2, 4}, {3, 6}};
+vector<double> trainingY = {2, 4, 6};
+vector<double> predicted;
+vector<vector<double>> input = {{1}, {2}, {3}};
 // Initialize a vector with random doubles
+int independentVars;
 vector<double> initialize(int vars) {
     vector<double> randomVector(vars); // Resize vector to the required size
     random_device rd;
@@ -21,40 +25,48 @@ vector<double> initialize(int vars) {
     return randomVector;
 }
 
-int main() {
-    // Test the initialize function
-    vector<double> x = initialize(5);
-    
-    // Print the elements of the vector
-    for (const auto& value : x) {
-        cout << value << " ";
-    }
-    cout << endl;
-    return 0;
-}
 void train() {
-    vector<double> data;
-    vector<double> trainingY;
-    vector<double> predicted;
-    vector<vector<double>> input;
     // I'm not sure how the data's gonna be formatted but I don't want to find out
     // so I'm just doing this for now.
-    int independentVars;
-    cin >> independentVars;
-    vector<double> coefficients = initialize(independentVars);
-
+    vector<double> coefficients = initialize(independentVars);  
+    for (int i =0; i < coefficients.size(); i++){
+        cout << "Before";
+        cout << coefficients[i];
+    }
+    cout << endl;
+    vector<double> predicted;
+    for (int i = 0; i<input.size(); i++){
+        double current = 0;
+        for (int g = 0; g<independentVars; g++){
+            current += coefficients[g]*input[i][g];
+        }
+        predicted.push_back(current);
+        current = 0;
+    }
     // Loop for gradient descent-like updates
     for (int weight = 0; weight < independentVars; weight++) {
         double gradient = 0.0;
         double sum = 0.0;
-        for (int dataPoint = 0; dataPoint < data.size(); dataPoint++) {
+        for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
             sum += (trainingY[dataPoint] - predicted[dataPoint]) * input[dataPoint][weight];
         }
         // Example: Calculate gradient (you may need a proper formula here)
-        gradient = -sum; // Update as needed
+        gradient = -2*sum/independentVars; // Update as needed
+        cout << gradient;
+        cout << endl;
         coefficients[weight] -= stepSize * gradient;
 
         // https://docs.google.com/document/d/14ry9NPSmFEA3wiCSeEVnyAETmLxW3ImQfHby9SPorpo/edit?usp=sharing
         // Comment with a link
     }
+    for (int i =0; i < coefficients.size(); i++){
+        cout << "After";
+        cout << coefficients[i];
+    }
+    cout << endl;
+}
+int main() {
+    cin >> independentVars;
+    train();
+    return 0;
 }
