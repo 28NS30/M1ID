@@ -4,12 +4,13 @@
 #include <sstream>
 #include <vector>
 #include <random>
+#include <ostream>
 using namespace std;
 double stepSize = 0.1;
+vector <vector<double>> input;
 vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
 vector<double> predicted;
-vector<vector<double>> input = {{3}, {2}, {5}};
 double b = 0;
 // Initialize a vector with random doubles
 int independentVars;
@@ -51,7 +52,7 @@ void train() {
         for (int weight = 0; weight < independentVars; weight++) {
             double gradient = 0.0;
             double sum = 0.0;
-            for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
+            for (int dataPoint = 0; dataPoint <data.size(); dataPoint++) {
                 sum += (trainingY[dataPoint] - predicted[dataPoint]) * input[dataPoint][weight];
             }
             gradient = -sum; // Update as needed
@@ -60,7 +61,7 @@ void train() {
             coefficients[weight] -= stepSize * gradient;}
         double gradient = 0.0;
         double sum = 0.0;
-        for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
+        for (int dataPoint = 0; dataPoint <data.size(); dataPoint++) {
             sum += (trainingY[dataPoint] - predicted[dataPoint]);
         }
         gradient = -sum; // Update as needed
@@ -80,10 +81,61 @@ void train() {
     cout << endl;
 }
 int main() {
-    for (int i = 0; i< stuff.size(); i++){
-        trainingY.push_back(stuff[i].back());
+    // Getting the data
+    // 2 d array in the form PassengerId
+    fstream fout;
+    fout.open("results.csv", ios::out);
+    fstream fin;
+    fin.open("train.csv",ios::in);
+    //data collection
+    string row,temp,line,col;
+    vector<vector<string>> data;
+    vector<string> curr;
+while (getline(fin,line,'\n')) {
+    stringstream s(line);
+        // read every column and store it into col
+        while (getline(s,col,','))
+        {
+            // add all the column data into a vector
+            if (!col.empty()) {
+            curr.push_back(col);
+            } else {
+curr.push_back("0");
+            }
+        }
+            data.push_back(curr);
+            //pushes the vector into a 2d array data
+            curr.clear();
+        }
+    
+    
+    
+    
+    
+    
+    
+    
+    // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
+    vector<vector<double>> input(data.size(),vector<double>(0));
+    for (int i = 0; i< data.size(); i++){
+        input[i].push_back(stod(data[i][2]));
+        if (data[i][4] == "male"){
+            input[i].push_back(stod("1"));
+        }
+        else{
+            input[i].push_back(stod("0"));
+        }
+        input[i].push_back(stod(data[i][5]));
+        input[i].push_back(stod(data[i][6]));
+        input[i].push_back(stod(data[i][7]));
+        input[i].push_back(stod(data[i][9]));
+        trainingY.push_back(stod(data[i][1]));
     }
-    cin >> independentVars;
+
+    // initialize True Y just for convenience
+    // CHANGE THIS WHEN NEEDED
+    
+    independentVars = 6;
     train();
     return 0;
-}
+}   

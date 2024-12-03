@@ -11,7 +11,7 @@ int main()
     fstream fout;
     fout.open("data.csv", ios::out);
     fstream fin;
-    fin.open("data.csv",ios::in);
+    fin.open("train.csv",ios::in);
     //data collection
     string row,temp,line,col;
     vector<vector<string>> data;
