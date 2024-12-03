@@ -7,7 +7,7 @@
 using namespace std;
 double stepSize = 0.1;
 vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
-vector<double> trainingY = {2, 6, 6};
+vector<double> trainingY;
 vector<double> predicted;
 vector<vector<double>> input = {{3}, {2}, {5}};
 double b = 0;
@@ -35,7 +35,7 @@ void train() {
     }
     cout << b;
     cout << endl;
-    for (int x = 0; x < 10000; x++){
+    for (int x = 0; x < 100000; x++){
         stepSize = 0.001;
         vector<double> predicted = {};
         for (int i = 0; i<input.size(); i++){
@@ -80,6 +80,9 @@ void train() {
     cout << endl;
 }
 int main() {
+    for (int i = 0; i< stuff.size(); i++){
+        trainingY.push_back(stuff[i].back());
+    }
     cin >> independentVars;
     train();
     return 0;
