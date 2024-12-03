@@ -8,10 +8,11 @@
 using namespace std;
 double stepSize = 0.1;
 vector <vector<double>> input;
+vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
 vector<double> predicted;
 double b = 0;
-vector<vector<string>> stuff;
+vector<vector<string>> DATA;
 // Initialize a vector with random doubles
 int independentVars;
 vector<double> initialize(int vars) {
@@ -27,7 +28,7 @@ vector<double> initialize(int vars) {
 }
 
 void train() {
-    // I'm not sure how the data's gonna be formatted but I don't want to find out
+    // I'm not sure how the DATA's gonna be formatted but I don't want to find out
     // so I'm just doing this for now.
     vector<double> coefficients = initialize(independentVars);  
     for (int i =0; i < coefficients.size(); i++){
@@ -52,8 +53,8 @@ void train() {
         for (int weight = 0; weight < independentVars; weight++) {
             double gradient = 0.0;
             double sum = 0.0;
-            for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
-                sum += (trainingY[dataPoint] - predicted[dataPoint]) * input[dataPoint][weight];
+            for (int DATAPoint = 0; DATAPoint <DATA.size(); DATAPoint++) {
+                sum += (trainingY[DATAPoint] - predicted[DATAPoint]) * input[DATAPoint][weight];
             }
             gradient = -sum; // Update as needed
             cout << gradient;
@@ -61,8 +62,8 @@ void train() {
             coefficients[weight] -= stepSize * gradient;}
         double gradient = 0.0;
         double sum = 0.0;
-        for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
-            sum += (trainingY[dataPoint] - predicted[dataPoint]);
+        for (int DATAPoint = 0; DATAPoint <DATA.size(); DATAPoint++) {
+            sum += (trainingY[DATAPoint] - predicted[DATAPoint]);
         }
         gradient = -sum; // Update as needed
         b-= stepSize * gradient;
@@ -81,13 +82,13 @@ void train() {
     cout << endl;
 }
 int main() {
-    // Getting the data
+    // Getting the DATA
     // 2 d array in the form PassengerId
     fstream fout;
     fout.open("results.csv", ios::out);
     fstream fin;
     fin.open("train.csv",ios::in);
-    //data collection
+    //DATA collection
     string row,temp,line,col;
     vector<string> curr;
 while (getline(fin,line,'\n')) {
@@ -95,15 +96,15 @@ while (getline(fin,line,'\n')) {
         // read every column and store it into col
         while (getline(s,col,','))
         {
-            // add all the column data into a vector
+            // add all the column DATA into a vector
             if (!col.empty()) {
             curr.push_back(col);
             } else {
 curr.push_back("0");
             }
         }
-            stuff.push_back(curr);
-            //pushes the vector into a 2d array data
+            DATA.push_back(curr);
+            //pushes the vector into a 2d array DATA
             curr.clear();
         }
     
@@ -115,26 +116,26 @@ curr.push_back("0");
     
     
     // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
-    vector<vector<double>> input(stuff.size(),vector<double>(0));
-    for (int i = 0; i< stuff.size(); i++){
-        input[i].push_back(stod(stuff[i][2]));
-        if (stuff[i][4] == "male"){
+    vector<vector<double>> input(DATA.size(),vector<double>(0));
+    for (int i = 0; i< DATA.size(); i++){
+        input[i].push_back(stod(DATA[i][2]));
+        if (DATA[i][5] == "male"){
             input[i].push_back(stod("1"));
         }
         else{
             input[i].push_back(stod("0"));
         }
-        input[i].push_back(stod(stuff[i][5]));
-        input[i].push_back(stod(stuff[i][6]));
-        input[i].push_back(stod(stuff[i][7]));
-        input[i].push_back(stod(stuff[i][9]));
-        trainingY.push_back(stod(stuff[i][1]));
+    cout << DATA[i][2] << " " << DATA[i][5] << " "<< DATA[i][6] << " "<< DATA[i][7] << " " << DATA[i][8] << " " << DATA[i][1] << "\n";
+        input[i].push_back(stod(DATA[i][6]));
+        input[i].push_back(stod(DATA[i][7]));
+        input[i].push_back(stod(DATA[i][8]));
+        trainingY.push_back(stod(DATA[i][1]));
     }
 
     // initialize True Y just for convenience
     // CHANGE THIS WHEN NEEDED
     
-    independentVars = 6;
+    independentVars = 5;
     train();
     return 0;
 }   
