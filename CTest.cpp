@@ -6,7 +6,7 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 0.01;
+double stepSize = 0.1;
 vector <vector<double>> input;
 vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
@@ -31,9 +31,9 @@ void train() {
     // I'm not sure how the DATA's gonna be formatted but I don't want to find out
     // so I'm just doing this for now.
     vector<double> coefficients = initialize(independentVars);  
-    cout << "Before";
     for (int i =0; i < coefficients.size(); i++){
-        cout << coefficients[i] << "     ";
+        cout << "Before";
+        cout << coefficients[i];
     }
     cout << b;
     cout << endl;
@@ -57,6 +57,8 @@ void train() {
                 sum += (trainingY[DATAPoint] - predicted[DATAPoint]) * input[DATAPoint][weight];
             }
             gradient = -sum; // Update as needed
+            cout << gradient;
+            cout << endl;
             coefficients[weight] -= stepSize * gradient;}
         double gradient = 0.0;
         double sum = 0.0;
@@ -69,10 +71,9 @@ void train() {
             // https://docs.google.com/document/d/14ry9NPSmFEA3wiCSeEVnyAETmLxW3ImQfHby9SPorpo/edit?usp=sharing
             // Comment with a link
     }
-    cout << "After";
     for (int i =0; i < coefficients.size(); i++){
-        
-        cout << coefficients[i] << "     ";
+        cout << "After";
+        cout << coefficients[i];
     }
     cout << endl;
     cout << "B";
