@@ -12,6 +12,7 @@ vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
 vector<double> predicted;
 double b = 0;
+vector<vector<string>> data;
 // Initialize a vector with random doubles
 int independentVars;
 vector<double> initialize(int vars) {
@@ -89,7 +90,6 @@ int main() {
     fin.open("train.csv",ios::in);
     //data collection
     string row,temp,line,col;
-    vector<vector<string>> data;
     vector<string> curr;
 while (getline(fin,line,'\n')) {
     stringstream s(line);
