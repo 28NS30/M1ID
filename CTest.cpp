@@ -6,7 +6,7 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 0.1;
+double stepSize = 0.01;
 vector <vector<double>> input;
 vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
@@ -31,15 +31,15 @@ void train() {
     // I'm not sure how the DATA's gonna be formatted but I don't want to find out
     // so I'm just doing this for now.
     vector<double> coefficients = initialize(independentVars);  
+    cout << "Before";
     for (int i =0; i < coefficients.size(); i++){
-        cout << "Before";
-        cout << coefficients[i];
+        cout << coefficients[i] << "     ";
     }
     cout << b;
     cout << endl;
+    vector<double> predicted;
     for (int x = 0; x < 100000; x++){
         stepSize = 0.001;
-        vector<double> predicted = {};
         for (int i = 0; i<input.size(); i++){
             double current = 0;
             for (int g = 0; g<independentVars; g++){
@@ -57,8 +57,6 @@ void train() {
                 sum += (trainingY[DATAPoint] - predicted[DATAPoint]) * input[DATAPoint][weight];
             }
             gradient = -sum; // Update as needed
-            cout << gradient;
-            cout << endl;
             coefficients[weight] -= stepSize * gradient;}
         double gradient = 0.0;
         double sum = 0.0;
@@ -71,9 +69,10 @@ void train() {
             // https://docs.google.com/document/d/14ry9NPSmFEA3wiCSeEVnyAETmLxW3ImQfHby9SPorpo/edit?usp=sharing
             // Comment with a link
     }
+    cout << "After";
     for (int i =0; i < coefficients.size(); i++){
-        cout << "After";
-        cout << coefficients[i];
+        
+        cout << coefficients[i] << "     ";
     }
     cout << endl;
     cout << "B";
@@ -116,8 +115,9 @@ curr.push_back("0");
     
     
     // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
-    vector<vector<double>> input(DATA.size(),vector<double>(0));
     for (int i = 0; i< DATA.size(); i++){
+        vector<double> init;
+        input.push_back(init);
         input[i].push_back(stod(DATA[i][2]));
         if (DATA[i][5] == "male"){
             input[i].push_back(stod("1"));
@@ -125,7 +125,6 @@ curr.push_back("0");
         else{
             input[i].push_back(stod("0"));
         }
-    cout << DATA[i][2] << " " << DATA[i][5] << " "<< DATA[i][6] << " "<< DATA[i][7] << " " << DATA[i][8] << " " << DATA[i][1] << "\n";
         input[i].push_back(stod(DATA[i][6]));
         input[i].push_back(stod(DATA[i][7]));
         input[i].push_back(stod(DATA[i][8]));
