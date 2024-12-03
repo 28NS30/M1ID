@@ -8,11 +8,10 @@
 using namespace std;
 double stepSize = 0.1;
 vector <vector<double>> input;
-vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
 vector<double> predicted;
 double b = 0;
-vector<vector<string>> data;
+vector<vector<string>> stuff;
 // Initialize a vector with random doubles
 int independentVars;
 vector<double> initialize(int vars) {
@@ -53,7 +52,7 @@ void train() {
         for (int weight = 0; weight < independentVars; weight++) {
             double gradient = 0.0;
             double sum = 0.0;
-            for (int dataPoint = 0; dataPoint <data.size(); dataPoint++) {
+            for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
                 sum += (trainingY[dataPoint] - predicted[dataPoint]) * input[dataPoint][weight];
             }
             gradient = -sum; // Update as needed
@@ -62,7 +61,7 @@ void train() {
             coefficients[weight] -= stepSize * gradient;}
         double gradient = 0.0;
         double sum = 0.0;
-        for (int dataPoint = 0; dataPoint <data.size(); dataPoint++) {
+        for (int dataPoint = 0; dataPoint <stuff.size(); dataPoint++) {
             sum += (trainingY[dataPoint] - predicted[dataPoint]);
         }
         gradient = -sum; // Update as needed
@@ -103,7 +102,7 @@ while (getline(fin,line,'\n')) {
 curr.push_back("0");
             }
         }
-            data.push_back(curr);
+            stuff.push_back(curr);
             //pushes the vector into a 2d array data
             curr.clear();
         }
@@ -116,20 +115,20 @@ curr.push_back("0");
     
     
     // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
-    vector<vector<double>> input(data.size(),vector<double>(0));
-    for (int i = 0; i< data.size(); i++){
-        input[i].push_back(stod(data[i][2]));
-        if (data[i][4] == "male"){
+    vector<vector<double>> input(stuff.size(),vector<double>(0));
+    for (int i = 0; i< stuff.size(); i++){
+        input[i].push_back(stod(stuff[i][2]));
+        if (stuff[i][4] == "male"){
             input[i].push_back(stod("1"));
         }
         else{
             input[i].push_back(stod("0"));
         }
-        input[i].push_back(stod(data[i][5]));
-        input[i].push_back(stod(data[i][6]));
-        input[i].push_back(stod(data[i][7]));
-        input[i].push_back(stod(data[i][9]));
-        trainingY.push_back(stod(data[i][1]));
+        input[i].push_back(stod(stuff[i][5]));
+        input[i].push_back(stod(stuff[i][6]));
+        input[i].push_back(stod(stuff[i][7]));
+        input[i].push_back(stod(stuff[i][9]));
+        trainingY.push_back(stod(stuff[i][1]));
     }
 
     // initialize True Y just for convenience
