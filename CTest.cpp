@@ -48,12 +48,12 @@ vector<double> train(vector<double> coefficients) {
             predicted.push_back(current);
             current = 0;
         }
-        if (x%1000 == 0){
-            double loss = 0.0;
-            for (int i = 0; i < trainingY.size(); ++i) {
-                loss += pow((trainingY[i] - predicted[i]), 2);
-            }
-            cout << "MSE: " << loss / trainingY.size() << endl;}
+        // if (x%1000 == 0){
+        //     double loss = 0.0;
+        //     for (int i = 0; i < trainingY.size(); ++i) {
+        //         loss += pow((trainingY[i] - predicted[i]), 2);
+        //     }
+        //     cout << "MSE: " << loss / trainingY.size() << endl;}
 
     // Loop for gradient descent-like updates
     for (int weight = 0; weight < independentVars; weight++) {
@@ -158,8 +158,9 @@ while (getline(fin,line,'\n')) {
         current = 0;
     }
     double loss = 0.0;
-    for (size_t i = 0; i < trainingY.size(); ++i) {
+    for (int i = 0; i < trainingY.size(); ++i) {
         loss += pow((trainingY[i] - predicted[i]), 2);
+        cout << predicted[i] << "\n";
     }
     cout << "MSE: " << loss / trainingY.size() << endl;
     return 0;
