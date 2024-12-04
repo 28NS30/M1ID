@@ -6,7 +6,7 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 0.1;
+double stepSize = 1e-6;
 vector <vector<double>> input;
 vector<vector <double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
@@ -27,19 +27,18 @@ vector<double> initialize(int vars) {
     return randomVector;
 }
 
-void train() {
+vector<double> train(vector<double> coefficients) {
     // I'm not sure how the DATA's gonna be formatted but I don't want to find out
     // so I'm just doing this for now.
-    vector<double> coefficients = initialize(independentVars);  
-    for (int i =0; i < coefficients.size(); i++){
+    for (int i = 0; i < coefficients.size(); i++){
         cout << "Before";
         cout << coefficients[i];
     }
     cout << b;
     cout << endl;
-    vector<double> predicted;
     for (int x = 0; x < 100000; x++){
-        stepSize = 0.001;
+
+        vector<double> predicted;
         for (int i = 0; i<input.size(); i++){
             double current = 0;
             for (int g = 0; g<independentVars; g++){
@@ -49,24 +48,31 @@ void train() {
             predicted.push_back(current);
             current = 0;
         }
-        // Loop for gradient descent-like updates
-        for (int weight = 0; weight < independentVars; weight++) {
-            double gradient = 0.0;
-            double sum = 0.0;
-            for (int DATAPoint = 0; DATAPoint <DATA.size(); DATAPoint++) {
-                sum += (trainingY[DATAPoint] - predicted[DATAPoint]) * input[DATAPoint][weight];
+        if (x%1000 == 0){
+            double loss = 0.0;
+            for (int i = 0; i < trainingY.size(); ++i) {
+                loss += pow((trainingY[i] - predicted[i]), 2);
             }
-            gradient = -sum; // Update as needed
-            cout << gradient;
-            cout << endl;
-            coefficients[weight] -= stepSize * gradient;}
+            cout << "MSE: " << loss / trainingY.size() << endl;}
+
+    // Loop for gradient descent-like updates
+    for (int weight = 0; weight < independentVars; weight++) {
+        double loss = 0.0;
         double gradient = 0.0;
         double sum = 0.0;
         for (int DATAPoint = 0; DATAPoint <DATA.size(); DATAPoint++) {
-            sum += (trainingY[DATAPoint] - predicted[DATAPoint]);
+            sum += (trainingY[DATAPoint] - predicted[DATAPoint]) * input[DATAPoint][weight];
         }
         gradient = -sum; // Update as needed
-        b-= stepSize * gradient;
+        coefficients[weight]-= stepSize * gradient;}
+
+    double gradient = 0.0;
+    double sum = 0.0;
+    for (int DATAPoint = 0; DATAPoint <DATA.size(); DATAPoint++) {
+        sum += (trainingY[DATAPoint] - predicted[DATAPoint]);
+    }
+    gradient = -sum; // Update as needed
+    b-= stepSize * gradient;
 
             // https://docs.google.com/document/d/14ry9NPSmFEA3wiCSeEVnyAETmLxW3ImQfHby9SPorpo/edit?usp=sharing
             // Comment with a link
@@ -80,6 +86,7 @@ void train() {
     cout << b;
     cout << endl;
     cout << endl;
+    return coefficients;
 }
 int main() {
     // Getting the DATA
@@ -100,7 +107,7 @@ while (getline(fin,line,'\n')) {
             if (!col.empty()) {
             curr.push_back(col);
             } else {
-curr.push_back("0");
+            curr.push_back("0");
             }
         }
             DATA.push_back(curr);
@@ -136,6 +143,25 @@ curr.push_back("0");
     // CHANGE THIS WHEN NEEDED
     
     independentVars = 5;
-    train();
+    vector<double> coefficients = initialize(independentVars); 
+    vector<double> final = train(coefficients);
+
+
+    vector<double> predicted;
+    for (int i = 0; i<input.size(); i++){
+        double current = 0;
+        for (int g = 0; g<independentVars; g++){
+            current += final[g]*input[i][g];
+        }
+        current += b;
+        predicted.push_back(current);
+        current = 0;
+    }
+    double loss = 0.0;
+    for (size_t i = 0; i < trainingY.size(); ++i) {
+        loss += pow((trainingY[i] - predicted[i]), 2);
+    }
+    cout << "MSE: " << loss / trainingY.size() << endl;
     return 0;
-}   
+}
+// After-0.143853After-0.50356After-0.00171229After-0.0336938After0.000439125
