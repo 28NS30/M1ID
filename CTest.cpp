@@ -40,9 +40,9 @@ vector<double> train(vector<double> coefficients)
     }
     cout << b;
     cout << endl;
-    for (int x = 0; x < 50000; x++)
+    for (int x = 0; x < 2000000; x++)
     {
-
+        // cout << x << endl;
         vector<double> predicted;
         for (int i = 0; i < input.size(); i++)
         {
@@ -100,21 +100,11 @@ vector<double> train(vector<double> coefficients)
     cout << endl;
     return coefficients;
 }
-
-// void results()
-
-int main()
-{
-    vector<double> res;
-    double best = 1000000;
-    double intercept;
-    // Getting the DATA
-    // 2 d array in the form PassengerId
-    fstream fout;
-    fout.open("results.csv", ios::out);
+vector<vector<string>> getData(string filename)
+{   
     fstream fin;
-    fin.open("train.csv", ios::in);
-    // DATA collection
+    fin.open(filename, ios::in);
+    vector<vector<string>> res;
     string row, temp, line, col;
     vector<string> curr;
     while (getline(fin, line, '\n'))
@@ -133,12 +123,22 @@ int main()
                 curr.push_back("0");
             }
         }
-        DATA.push_back(curr);
+        res.push_back(curr);
         // pushes the vector into a 2d array DATA
         curr.clear();
     }
+    return res;
+}
+// void results()
 
-    // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
+int main()
+{
+    // INTIALIZING NECESSARY STUFF;
+    fstream fout;
+    fout.open("results.csv", ios::out);
+    DATA = getData("train.csv");
+    independentVars = 5;
+    // reads the data and puts the desired features into input
     for (int i = 0; i < DATA.size(); i++)
     {
         vector<double> init;
@@ -161,106 +161,123 @@ int main()
     // initialize True Y just for convenience
     // CHANGE THIS WHEN NEEDED
 
-    independentVars = 5;
-    for (int i = 0; i < 1000; i++)
-    {   b = 0;
-        vector<double> coefficients = initialize(independentVars);
-        vector<double> final = train(coefficients);
-        vector<double> predicted;
-        for (int i = 0; i < input.size(); i++)
+    double cutoff;
+    double bestMSE = 99999999;
+    b = 0;
+    // vector<double> coefficients = initialize(independentVars);
+    vector<double> coefficients = {-0.0188993,-0.0690367,0.00114887,-0.00672806-0.0017916};
+    vector<double> final = train(coefficients);
+    vector<double> predicted;
+
+
+    // for (int h = 0; h <= 400; h++)
+    // {
+    //     predicted = {};
+    //     for (int i = 0; i < input.size(); i++)
+    //     {
+    //         double current = 0;
+    //         for (int g = 0; g < independentVars; g++)
+    //         {
+    //             current += final[g] * input[i][g];
+    //         }
+    //         current += b;
+    //         if (current < h/100){
+    //             predicted.push_back(stod("0"));
+    //         }
+    //         else{
+    //             predicted.push_back(stod("1"));
+    //         }
+    //         current = 0;
+    //     }
+    //     double loss = 0.0;
+    //     for (int i = 0; i < trainingY.size(); ++i)
+    //     {
+    //         loss += pow((trainingY[i] - predicted[i]), 2);
+    //     }
+    //     if (loss/trainingY.size() < bestMSE){
+    //         bestMSE = loss/trainingY.size();
+    //         cutoff = h/100;
+    //     }
+    // }
+    // cout << "done" << endl;
+    // cout << cutoff << endl;
+    // cout << bestMSE;
+
+    vector<vector<string>> test;
+    fstream fin;
+    fin.open("test.csv", ios::in);
+    // DATA collection
+    string row, temp, line, col;
+    vector<string> curr;
+    row = "";
+    temp = "";
+    line = "";
+    col = "";
+    curr = {};
+    while (getline(fin, line, '\n'))
+    {
+        stringstream s(line);
+        // read every column and store it into col
+        while (getline(s, col, ','))
         {
-            double current = 0;
-            for (int g = 0; g < independentVars; g++)
+            // add all the column DATA into a vector
+            if (!col.empty())
             {
-                current += final[g] * input[i][g];
+                curr.push_back(col);
             }
-            current += b;
-            predicted.push_back(round(current));
-            current = 0;
+            else
+            {
+                curr.push_back("0");
+            }
         }
-        double loss = 0.0;
-        for (int i = 0; i < trainingY.size(); ++i)
+        test.push_back(curr);
+        // pushes the vector into a 2d array DATA
+        curr.clear();
+    }
+    input = {};
+    trainingY = {};
+    // Put desired features into input
+    for (int i = 0; i < test.size(); i++)
+    {
+        vector<double> init;
+        input.push_back(init);
+        input[i].push_back(stod(test[i][2]));
+        if (test[i][5] == "male")
         {
-            loss += pow((trainingY[i] - predicted[i]), 2);
+            input[i].push_back(stod("1"));
         }
-        if (loss / trainingY.size() < best){
-            best = loss / trainingY.size();
-            res = final;
-            intercept = b;
+        else
+        {
+            input[i].push_back(stod("0"));
         }
+        input[i].push_back(stod(test[i][6]));
+        input[i].push_back(stod(test[i][7]));
+        input[i].push_back(stod(test[i][8]));
+        trainingY.push_back(stod(test[i][1]));
     }
-    for (int i = 0; i < 5; i++){
-        fout << res[i] << endl;
+    // getting the predictions
+    predicted = {};
+    for (int i = 0; i < input.size(); i++)
+    {
+        double current = 0;
+        for (int g = 0; g < independentVars; g++)
+        {
+            current += final[g] * input[i][g];
+        }
+        current += b;
+        if (current < 1){
+            predicted.push_back(stod("0"));
+        }
+        else{
+            predicted.push_back(stod("1"));
+        }
+        current = 0;
     }
-    fout << "B: " << b;
-    fout << "Best MSE: " << best;
-
-    // vector<vector<string>> test;
-    // fin.open("test.csv", ios::in);
-    // // DATA collection
-    // row = "";
-    // temp = "";
-    // line = "";
-    // col = "";
-    // curr = {};
-    // while (getline(fin, line, '\n'))
-    // {
-    //     stringstream s(line);
-    //     // read every column and store it into col
-    //     while (getline(s, col, ','))
-    //     {
-    //         // add all the column DATA into a vector
-    //         if (!col.empty())
-    //         {
-    //             curr.push_back(col);
-    //         }
-    //         else
-    //         {
-    //             curr.push_back("0");
-    //         }
-    //     }
-    //     test.push_back(curr);
-    //     // pushes the vector into a 2d array DATA
-    //     curr.clear();
-    // }
-    // input = {};
-    // trainingY = {};
-    // // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
-    // for (int i = 0; i < test.size(); i++)
-    // {
-    //     vector<double> init;
-    //     input.push_back(init);
-    //     input[i].push_back(stod(test[i][2]));
-    //     if (test[i][5] == "male")
-    //     {
-    //         input[i].push_back(stod("1"));
-    //     }
-    //     else
-    //     {
-    //         input[i].push_back(stod("0"));
-    //     }
-    //     input[i].push_back(stod(test[i][6]));
-    //     input[i].push_back(stod(test[i][7]));
-    //     input[i].push_back(stod(test[i][8]));
-    //     trainingY.push_back(stod(test[i][1]));
-    // }
-
-    // for (int i = 0; i < input.size(); i++)
-    // {
-    //     double current = 0;
-    //     for (int g = 0; g < independentVars; g++)
-    //     {
-    //         current += final[g] * input[i][g];
-    //     }
-    //     current += b;
-    //     predicted.push_back(round(current));
-    //     current = 0;
-    // }
-
-    // for (int i = 892; i <= 1309; i++){
-    //     fout << 892 << predicted[i-892];
-    //     fout << endl;
-    // }
+    fout << "PassengerId,Survived";
+    for (int i = 892; i <= 1309; i++){
+        fout << endl;
+        fout << i << "," << predicted[i-892];
+    }
 
     return 0;
 }
