@@ -40,7 +40,7 @@ vector<double> train(vector<double> coefficients)
     }
     cout << b;
     cout << endl;
-    for (int x = 0; x < 2000000; x++)
+    for (int x = 0; x < 50000; x++)
     {
 
         vector<double> predicted;
@@ -100,8 +100,14 @@ vector<double> train(vector<double> coefficients)
     cout << endl;
     return coefficients;
 }
+
+// void results()
+
 int main()
 {
+    vector<double> res;
+    double best = 1000000;
+    double intercept;
     // Getting the DATA
     // 2 d array in the form PassengerId
     fstream fout;
@@ -156,28 +162,106 @@ int main()
     // CHANGE THIS WHEN NEEDED
 
     independentVars = 5;
-    vector<double> coefficients = initialize(independentVars);
-    vector<double> final = train(coefficients);
-
-    vector<double> predicted;
-    for (int i = 0; i < input.size(); i++)
-    {
-        double current = 0;
-        for (int g = 0; g < independentVars; g++)
+    for (int i = 0; i < 1000; i++)
+    {   b = 0;
+        vector<double> coefficients = initialize(independentVars);
+        vector<double> final = train(coefficients);
+        vector<double> predicted;
+        for (int i = 0; i < input.size(); i++)
         {
-            current += final[g] * input[i][g];
+            double current = 0;
+            for (int g = 0; g < independentVars; g++)
+            {
+                current += final[g] * input[i][g];
+            }
+            current += b;
+            predicted.push_back(round(current));
+            current = 0;
         }
-        current += b;
-        predicted.push_back(round(current));
-        current = 0;
+        double loss = 0.0;
+        for (int i = 0; i < trainingY.size(); ++i)
+        {
+            loss += pow((trainingY[i] - predicted[i]), 2);
+        }
+        if (loss / trainingY.size() < best){
+            best = loss / trainingY.size();
+            res = final;
+            intercept = b;
+        }
     }
-    double loss = 0.0;
-    for (int i = 0; i < trainingY.size(); ++i)
-    {
-        loss += pow((trainingY[i] - predicted[i]), 2);
-        cout << predicted[i] << "\n";
+    for (int i = 0; i < 5; i++){
+        fout << res[i] << endl;
     }
-    cout << "MSE: " << loss / trainingY.size() << endl;
+    fout << "B: " << b;
+    fout << "Best MSE: " << best;
+
+    // vector<vector<string>> test;
+    // fin.open("test.csv", ios::in);
+    // // DATA collection
+    // row = "";
+    // temp = "";
+    // line = "";
+    // col = "";
+    // curr = {};
+    // while (getline(fin, line, '\n'))
+    // {
+    //     stringstream s(line);
+    //     // read every column and store it into col
+    //     while (getline(s, col, ','))
+    //     {
+    //         // add all the column DATA into a vector
+    //         if (!col.empty())
+    //         {
+    //             curr.push_back(col);
+    //         }
+    //         else
+    //         {
+    //             curr.push_back("0");
+    //         }
+    //     }
+    //     test.push_back(curr);
+    //     // pushes the vector into a 2d array DATA
+    //     curr.clear();
+    // }
+    // input = {};
+    // trainingY = {};
+    // // Survived Pclass Name Sex Age SibSp Parch Ticket Fare
+    // for (int i = 0; i < test.size(); i++)
+    // {
+    //     vector<double> init;
+    //     input.push_back(init);
+    //     input[i].push_back(stod(test[i][2]));
+    //     if (test[i][5] == "male")
+    //     {
+    //         input[i].push_back(stod("1"));
+    //     }
+    //     else
+    //     {
+    //         input[i].push_back(stod("0"));
+    //     }
+    //     input[i].push_back(stod(test[i][6]));
+    //     input[i].push_back(stod(test[i][7]));
+    //     input[i].push_back(stod(test[i][8]));
+    //     trainingY.push_back(stod(test[i][1]));
+    // }
+
+    // for (int i = 0; i < input.size(); i++)
+    // {
+    //     double current = 0;
+    //     for (int g = 0; g < independentVars; g++)
+    //     {
+    //         current += final[g] * input[i][g];
+    //     }
+    //     current += b;
+    //     predicted.push_back(round(current));
+    //     current = 0;
+    // }
+
+    // for (int i = 892; i <= 1309; i++){
+    //     fout << 892 << predicted[i-892];
+    //     fout << endl;
+    // }
+
     return 0;
 }
 // After-0.143853After-0.50356After-0.00171229After-0.0336938After0.000439125
