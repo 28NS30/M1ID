@@ -45,7 +45,6 @@ vector<double> predict(vector<vector<double>> input, vector<double> coefficients
     }
     return prediction;
 }
-
 vector<double> train(vector<double> coefficients, double epochs)
 {
     // I'm not sure how the DATA's gonna be formatted but I don't want to find out
@@ -116,7 +115,6 @@ vector<double> train(vector<double> coefficients, double epochs)
     cout << endl;
     return coefficients;
 }
-
 vector<vector<string>> getData(string filename)
 {
     fstream fin;
@@ -146,7 +144,14 @@ vector<vector<string>> getData(string filename)
     }
     return res;
 }
-// void results()
+void output(vector<double> results, string filename, int startingIndex, string header){
+    fstream fout;
+    fout.open(filename, ios::out);
+    fout << header;
+    for (int i = startingIndex; i < startingIndex+results.size(); i++){
+        fout << endl << i << "," << results[i-startingIndex];
+    }
+}
 
 int main()
 {
@@ -203,9 +208,7 @@ int main()
         input[i].push_back(family_size);
         input[i].push_back(stod(DATA[i][9]));
     }
-    fout << "PassengerId,Survived";
+    
     prediction = predict(input, final, b, 0.46);
-    for (int i = 892; i <= 1309; i++){
-        fout  << endl << i << "," << prediction[i-892];
-    }
+    output(prediction, "resultscsv", 892, "PassengerId,Survived");
     }
