@@ -6,7 +6,7 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 5e-7;
+double stepSize = 1e-7;
 vector<vector<double>> input;
 vector<vector<double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
@@ -159,7 +159,7 @@ int main()
     fstream fout;
     fout.open("results.csv", ios::out);
     DATA = getData("train.csv");
-    independentVars = 4;
+    independentVars = 5;
     // reads the data and puts the desired features into input
     for (int i = 0; i < DATA.size(); i++)
     {
@@ -169,9 +169,11 @@ int main()
         if (DATA[i][4] == "male")
         {
             input[i].push_back(1.0);
+            input[i].push_back(stod(DATA[i][2]));
         }
         else
         {
+            input[i].push_back(0.0);
             input[i].push_back(0.0);
         }
         double family_size = stod(DATA[i][7]) + stod(DATA[i][6]);  // SibSp + Parch
@@ -181,8 +183,8 @@ int main()
     }
     b = 0;
     // vector<double> coefficients = initialize(independentVars);
-    vector<double> coefficients = initialize(4);
-    vector<double> final = train(coefficients, 5000000);
+    vector<double> coefficients = initialize(independentVars);
+    vector<double> final = train(coefficients, 100000);
     vector<double> prediction = predict(input, final, b, 0.46);
     double error = 0;
     for (int i = 0; i < input.size(); i++){
@@ -199,9 +201,11 @@ int main()
         if (DATA[i][3] == "male")
         {
             input[i].push_back(1.0);
+            input[i].push_back(stod(DATA[i][1]));
         }
         else
         {
+            input[i].push_back(0.0);
             input[i].push_back(0.0);
         }
         double family_size = stod(DATA[i][5]) + stod(DATA[i][6]);  // SibSp + Parch
@@ -210,5 +214,5 @@ int main()
     }
     
     prediction = predict(input, final, b, 0.46);
-    output(prediction, "resultscsv", 892, "PassengerId,Survived");
+    output(prediction, "results.csv", 892, "PassengerId,Survived");
     }
