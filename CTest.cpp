@@ -6,9 +6,8 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 1e-7;
+double stepSize = 1e-9;
 vector<vector<double>> input;
-vector<vector<double>> stuff = {{3, 2}, {2, 6}, {5, 6}};
 vector<double> trainingY;
 vector<double> predicted;
 double b = 0;
@@ -58,6 +57,10 @@ vector<double> train(vector<double> coefficients, double epochs)
     cout << endl;
     for (int x = 0; x < epochs; x++)
     {
+        for (int i = 0; i < coefficients.size(); i++){
+            cout << coefficients[i] << ", ";
+        }
+        cout << endl;
         vector<double> predicted;
         for (int i = 0; i < input.size(); i++)
         {
@@ -159,7 +162,7 @@ int main()
     fstream fout;
     fout.open("results.csv", ios::out);
     DATA = getData("train.csv");
-    independentVars = 5;
+    independentVars = 7;
     // reads the data and puts the desired features into input
     for (int i = 0; i < DATA.size(); i++)
     {
@@ -178,13 +181,15 @@ int main()
         }
         double family_size = stod(DATA[i][7]) + stod(DATA[i][6]);  // SibSp + Parch
         input[i].push_back(family_size);
+        input[i].push_back(stod(DATA[i][6]));
+        input[i].push_back(pow(stod(DATA[i][6]), 2));
         input[i].push_back(stod(DATA[i][10]));
         trainingY.push_back(stod(DATA[i][1]));
     }
     b = 0;
     // vector<double> coefficients = initialize(independentVars);
     vector<double> coefficients = initialize(independentVars);
-    vector<double> final = train(coefficients, 100000);
+    vector<double> final = train(coefficients, 1000);
     vector<double> prediction = predict(input, final, b, 0.46);
     double error = 0;
     for (int i = 0; i < input.size(); i++){
@@ -208,8 +213,11 @@ int main()
             input[i].push_back(0.0);
             input[i].push_back(0.0);
         }
-        double family_size = stod(DATA[i][5]) + stod(DATA[i][6]);  // SibSp + Parch
+        double family_size = stod(DATA[i][5]) + stod(DATA[i][6]);
+          // SibSp + Parch
         input[i].push_back(family_size);
+        input[i].push_back(stod(DATA[i][7]));
+        input[i].push_back(pow(stod(DATA[i][7]), 2));
         input[i].push_back(stod(DATA[i][9]));
     }
     
