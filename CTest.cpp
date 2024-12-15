@@ -6,7 +6,7 @@
 #include <random>
 #include <ostream>
 using namespace std;
-double stepSize = 1e-9;
+double stepSize = 2e-10;
 vector<vector<double>> input;
 vector<double> trainingY;
 vector<double> predicted;
@@ -56,11 +56,7 @@ vector<double> train(vector<double> coefficients, double epochs)
     cout << b;
     cout << endl;
     for (int x = 0; x < epochs; x++)
-    {
-        for (int i = 0; i < coefficients.size(); i++){
-            cout << coefficients[i] << ", ";
-        }
-        cout << endl;
+    {   
         vector<double> predicted;
         for (int i = 0; i < input.size(); i++)
         {
@@ -169,7 +165,8 @@ int main()
         vector<double> init;
         input.push_back(init);
         input[i].push_back(stod(DATA[i][2]));
-        if (DATA[i][4] == "male")
+        // Pclass
+        if (DATA[i][5] == "female")
         {
             input[i].push_back(1.0);
             input[i].push_back(stod(DATA[i][2]));
@@ -178,24 +175,35 @@ int main()
         {
             input[i].push_back(0.0);
             input[i].push_back(0.0);
+            // input[i].push_back(stod(DATA[i][2]));
+            // input[i].push_back(pow(stod(DATA[i][6]),2));
         }
-        double family_size = stod(DATA[i][7]) + stod(DATA[i][6]);  // SibSp + Parch
+        double family_size = stod(DATA[i][7]) + stod(DATA[i][8]);  // SibSp + Parch
         input[i].push_back(family_size);
-        input[i].push_back(stod(DATA[i][6]));
-        input[i].push_back(pow(stod(DATA[i][6]), 2));
         input[i].push_back(stod(DATA[i][10]));
+        input[i].push_back(stod(DATA[i][6]));
+        input[i].push_back(pow(stod(DATA[i][6]),2));
         trainingY.push_back(stod(DATA[i][1]));
     }
     b = 0;
-    // vector<double> coefficients = initialize(independentVars);
     vector<double> coefficients = initialize(independentVars);
-    vector<double> final = train(coefficients, 1000);
-    vector<double> prediction = predict(input, final, b, 0.46);
+    // vector<double> coefficients = {0.149533,-0.0905497,-0.143581-0.0234554,0.00301156,0.00909168,-0.000118166};
+    vector<double> final = train(coefficients, 1000000);
+    vector<double> prediction = predict(input, final, b, 0.4);
+    // for (double cutoff = 0; cutoff < 2; cutoff+= 0.01){
+    //     prediction = predict(input, final, b, cutoff);
+    //     double error = 0;
+    //     for (int i = 0; i < input.size(); i++){
+    //         error += pow(trainingY[i] - prediction[i],2);
+    //     }
+    // cout << cutoff << "  MSE: " << error/891 << endl;
+    // }
+
     double error = 0;
     for (int i = 0; i < input.size(); i++){
         error += pow(trainingY[i] - prediction[i],2);
     }
-    cout << "MSE: " << error/891;
+    cout << "MSE: " << error/891 << endl;
     DATA = getData("test.csv");
     input = {};
     for (int i = 0; i < DATA.size(); i++)
@@ -203,7 +211,8 @@ int main()
         vector<double> init = {};
         input.push_back(init);
         input[i].push_back(stod(DATA[i][1]));
-        if (DATA[i][3] == "male")
+        // input[i].push_back(pow(stod(DATA[i][1]), 2));
+        if (DATA[i][4] == "female")
         {
             input[i].push_back(1.0);
             input[i].push_back(stod(DATA[i][1]));
@@ -212,15 +221,16 @@ int main()
         {
             input[i].push_back(0.0);
             input[i].push_back(0.0);
+
         }
-        double family_size = stod(DATA[i][5]) + stod(DATA[i][6]);
-          // SibSp + Parch
-        input[i].push_back(family_size);
-        input[i].push_back(stod(DATA[i][7]));
-        input[i].push_back(pow(stod(DATA[i][7]), 2));
+        double family_size = stod(DATA[i][6]) + stod(DATA[i][7]); 
+        input[i].push_back(family_size); // SibSp + Parch
         input[i].push_back(stod(DATA[i][9]));
+        input[i].push_back(stod(DATA[i][5]));
+        input[i].push_back(pow(stod(DATA[i][5]),2));
     }
     
     prediction = predict(input, final, b, 0.46);
     output(prediction, "results.csv", 892, "PassengerId,Survived");
+    cout << endl << "DONE";
     }
