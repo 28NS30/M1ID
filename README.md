@@ -1,5 +1,5 @@
 # Mi1D
-## Purpose
+## Motivation
 The goal of this project will be to learn as much as I can and try out all sorts of different models. 
 The end goal of Model In 1 Day would be to perform well in a competition like HiMCM or Kaggle. 
 Although the project is named Mi1D, I will not be holding myself to the time limitations very strictly, 
@@ -8,6 +8,10 @@ much as possible. The purpose of this is to create all sorts of models from SCRA
 exceptions). No ChatGPT code. Just plain old C++ that I wrote. Shouted to Jared for encouraging me to start this project.
 
 ## 1. Linear Reggression Model
+
+#### Purpose
+I originally set out to create a general linear regression model that could easily be repurposed or used as a skeleton for a future project. A pretty big
+driving motivation for this project was just to beat Jared in the Kaggle Comp😅.
 
 #### Description
 Pretty self-explanatory. I created a linear regression model and tested it 
