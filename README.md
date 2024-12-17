@@ -12,8 +12,10 @@ exceptions). No ChatGPT code. Just plain old C++ that I wrote. Shouted to Jared 
 #### Description
 Pretty self-explanatory. I created a linear regression model and tested it 
 with the [Titanic Kaggle Challenge](https://www.kaggle.com/competitions/titanic/data?select=test.csv). For the training, I used
-using a batch gradient descent algorithm. By calculating the gradient of the loss function (MSE) with respect to a weight every epoch, and then stepping
-in the opposite direction, I can effectively minimize the loss. Then, to further improve my model, I added some interaction terms and some squared terms to get
+using a batch gradient descent algorithm. I can effectively minimize the loss by calculating the gradient of the loss function (MSE) with respect to a weight every epoch, and then stepping in the opposite direction. Then, to further improve my model, I added some interaction terms and some squared terms to get
 a better fit.
 
 #### Results
+I am not so satisfied with the final fit using the model, so I will probably revisit this later for further optimization. After tweaking many different parameters and fixing bugs, I ended up with a mean squared error of 0.2068. Not bad, but could definitely be better. Although I did test a few different
+cutoffs for the final output of the model, since the titanic problem requires a binary output, given more time, I would try to implement some more elements of
+logistical regression. The model could also have improved if I had time to tweak more with the inputs and perhaps try imputation or data cleaning. All in all, I'm pretty happy with the outcome of this model, but will probably just move on for now.
