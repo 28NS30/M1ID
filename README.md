@@ -1,4 +1,4 @@
-# Mi1D
+# Mi1D (kind of)
 ## Motivation
 The goal of this project will be to learn as much as I can and try out all sorts of different models. 
 The end goal of Model In 1 Day would be to perform well in a competition like HiMCM or Kaggle. 
