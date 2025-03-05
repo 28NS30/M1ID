@@ -53,18 +53,6 @@ int main()
     vector<vector<int>> visited(gridSize, vector<int>(gridSize, 0));           // 0 means not visited, 1 means visited
     vector<vector<double>> momentumMap(gridSize, vector<double>(gridSize, 0)); // Store angle (momentum) at each cell
     vector<vector<int>> map(gridSize, vector<int>(gridSize, 0));               // 0 means open, 1 means blocked
-    // map = {
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    //     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-
     vector<vector<pair<int, int>>> parent(gridSize, vector<pair<int, int>>(gridSize, {-1, -1}));
     vector<vector<double>> seen(gridSize, vector<double>(gridSize, gridSize - 1));
     minHeap.push({0, 0, 0}); // {f-cost, x, y}
