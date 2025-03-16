@@ -12,7 +12,7 @@ vector<vector<double>> biases = {
     {0.5}
 };
 int epochs = 1e7;
-double eta = 1e-3;
+double eta = 1e-2;
 
 double sigmoid(double x) {
     return 1.0 / (1.0 + exp(-x));
@@ -41,10 +41,10 @@ void train(vector<vector<double>>inputs, vector<vector<double>> trueYs){
     // OUTPUT LAYER
     for (int epoch = 0; epoch < epochs; epoch++){
         // Runs for set number of epochs/training cycle
-        // int x = epochs/20;
-        // if (epoch%x == 0){
-        //     cout << "Epoch: " << epoch << endl;
-        // }
+        int x = epochs/20;
+        if (epoch%x == 0){
+            cout << "Epoch: " << epoch << endl;
+        }
         vector<vector<vector<double>>> predictions;
         for(auto tc: inputs){
             predictions.push_back(forwardPass(tc));
@@ -58,7 +58,7 @@ void train(vector<vector<double>>inputs, vector<vector<double>> trueYs){
                     // OUTPUT LAYER
                     for (int node = 0; node < weights[layer].size(); node++){
                         grad = (predictions[dataPoint].back()[node] - trueYs[dataPoint][node])   *   (predictions[dataPoint].back()[node] * (1 - predictions[dataPoint].back()[node]));
-                        cout << grad << endl;
+                        // cout << grad << endl;
                         dError[layer].push_back(grad);
                         for (int weight = 0; weight < weights[layer][node].size(); weight++){
                                 // Update Weight
