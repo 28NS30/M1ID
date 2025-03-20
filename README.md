@@ -23,3 +23,19 @@ a better fit.
 I am not so satisfied with the final fit using the model, so I will probably revisit this later for further optimization. After tweaking many different parameters and fixing bugs, I ended up with a mean squared error of 0.2068. Not bad, but could definitely be better. Although I did test a few different
 cutoffs for the final output of the model, since the titanic problem requires a binary output, given more time, I would try to implement some more elements of
 logistical regression. The model could also have improved if I had time to tweak more with the inputs and perhaps try imputation or data cleaning. All in all, I'm pretty happy with the outcome of this model, but will probably just move on for now.
+
+
+## 2. Neural Network
+
+#### Purpose
+I've always really reaaaallly wanted to train a reinforcement learning model to play a game, so this seemed like the natural first step. For this model, I definitely wasn't going to do it in 1 day. Over a month or so, I learned about NNS and built one. From scratch. No libraries. No chatgpt. And way too much time. 
+
+#### Description
+With nothing but a dream 💭 I just wanted to make a neural network. For simplicity's sake, I didn't choose to make it a class, I just had global variables. Throughout the building of this
+model, I had to learn calculus. Lowkey not that hard. The model will calculate the gradient of the loss function with respect to the pre-activation (z) of each node then propagate it backward for the gradient calculation of each node. Then it simply updates each weight. Really cool stuff (or at least I think it is).
+
+#### Results
+I'm pretty satisfied with the model, I tested it a few times. It passed the XOR test which I found pretty cool and it just works. I think there are quite a few next steps/improvements for
+this model. At some point in the hopefully not-so-distant future, I want to rewrite/adapt it into OOP and wrap it all in a neural network class. I also want to maybe leverage some libraries
+or cpp threading to improve the performance speed with matrix multiplication. Once I'm satisfied with Neural Network, I think I might start to either apply it for some modeling problems, 
+branch it into something reinforcement learning related, or perhaps have it play a game. I definitely learned quite a bit from this project and it was quite interesting.
