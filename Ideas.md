@@ -3,7 +3,7 @@
 <em>Modeling the spread of pandemics.</em> <br>
 Predicting patient readmission likelihood. <br>
 Climate change predictions. <br>
-<em>Predicting deforestation trends.</em> <br>
+Predicting deforestation trends. <br>
 Forecasting water availability in drought-prone areas. <br>
 Predicting shipping delays in global supply chains. <br>
 Stock market trend prediction. <br>
