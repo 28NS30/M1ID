@@ -39,3 +39,14 @@ I'm pretty satisfied with the model, I tested it a few times. It passed the XOR 
 this model. At some point in the hopefully not-so-distant future, I want to rewrite/adapt it into OOP and wrap it all in a neural network class. I also want to maybe leverage some libraries
 or cpp threading to improve the performance speed with matrix multiplication. Once I'm satisfied with Neural Network, I think I might start to either apply it for some modeling problems, 
 branch it into something reinforcement learning related, or perhaps have it play a game. I definitely learned quite a bit from this project and it was quite interesting.
+
+## 3. SIR Models
+
+#### Purpose
+The purpose of this project is to model the spread of a disease through –I guess– the world. I actually implemented 2 different-ish ones that build upon each other. The first was to use a basic SIR model to model the number of Suscetible, Infected, and Recovered/Dead people. Then I adapted the model to put into consideration the number of people exposed, transitioning it into a SEIR model.
+
+#### Description
+The model is suprisingly simple and kind of just works iteratively. There isn't exactly any ml in this, but I still found it pretty interesting. Honestly a really really easy model. The model works by using predefined constants to determine the rate at which people move from group to group. This model isn't so much technically difficult –or rather not at all– but is suprisingly good at predicting/modeling disease outbreaks given the right research.
+
+#### Results
+I'm not gonna lie this was incredibly underwhelming. I thought it was going to be really cool but it was really just a loop. There are some modifications I could apply to make it more interesting. For example, by adding in a bit of randomness into the model, I could make it stochastic or perhaps into a Monte Carlo simulation. However I'm just really sick of this thing –pun intended– and I want to move on. This model marks a bit of a pivot in my journey. Before this I was just doing general models that I thought (and still think) are cool, but moving forward, I think I'll try to be a bit more structured and actually start working away at some of the ideas I have listed.
