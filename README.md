@@ -55,3 +55,11 @@ I'm not gonna lie this was incredibly underwhelming. I thought it was going to b
 
 #### Description
 I think I kind of messed up with the stucture of these entries. Moving foraward I think I will just combine this one with that one ^. Or maybe not 🤷‍♂️. We'll see. I put this model under sir model 2.0 because its literally the exact same thing, just with an extra term V. A percentage of the Susceptible group gets added to the V group based on the vaccination rate and the vaccine efficacy rate. Then a small percentage of the vaccinated group gets added back into the Susceptible group due to Vaccination wearoff. Other than that, this is JUST the SIR model. Ngl I'm incredibly underwhelmed, and I'm not sure how I feel about this structure. Should I put all the SIR models under one entry? Or should I lengthen this out make it its own seperate entry 🤷🏻‍♂️.
+
+## 3. Global Warming Model
+
+#### Model
+Not really applicable for this. :(
+
+#### Implementation
+The model itslef is really not mcuh. The whole thing is basically just a little bit of research. Speaking of research, I kind of cheated for this model. For this model, research is everything. It's the whole model. There is actually NOTHING interesting about the models inner workings other than just some constants I found. Because of how research-intensive some of these models are, I've kind of decided that chatgpt at all is cheating. I think the research process could be very valuable, so I will try to cut chatgpt out completely. While I will do all the programming and research myself, I do think its ok for chatgpt to just act as a guide to nudge me in the right direction at the start. Basically for this model, for each doubling in the parts per million of CO2 the temperature will increase by 3 degrees celsius. Of course we are not able to 100% predict the effect of carbon dioxide, this was the best estimate that I –or chatgpt– found. The model works by increasing the temperature by 3*log base 2 of newCO2/curCO2. The CO2 is just determined by the current rate of co2 growth. This oobviously a bit of a sub-optimal model, in fact it is shit. However it really is the best approximation that I could come up with.
