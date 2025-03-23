@@ -97,7 +97,7 @@
   - <em>Model the impact of vaccination campaigns.  </em>
 - **Climate Models**  
   - <em>Simulate global temperature changes.</em>
-  - Model ocean acidification over time.  
+  - Model ocean acidification over time.
 - **Physics-Based Models**  
   - Model the spread of air pollution in urban areas.  
   - Predict the trajectory of space debris.  
