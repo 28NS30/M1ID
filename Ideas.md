@@ -94,7 +94,7 @@
 ### **Differential Equation Models**  
 - **Epidemiological Models (SIR, SEIR, etc.)**  
   - <em>Simulate pandemic spread using SIR models.  </em>
-  - Model the impact of vaccination campaigns.  
+  - <em>Model the impact of vaccination campaigns.  </em>
 - **Climate Models**  
   - Simulate global temperature changes.  
   - Model ocean acidification over time.  
