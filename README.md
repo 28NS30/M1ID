@@ -50,3 +50,8 @@ The model is suprisingly simple and kind of just works iteratively. There isn't 
 
 #### Results
 I'm not gonna lie this was incredibly underwhelming. I thought it was going to be really cool but it was really just a loop. There are some modifications I could apply to make it more interesting. For example, by adding in a bit of randomness into the model, I could make it stochastic or perhaps into a Monte Carlo simulation. However I'm just really sick of this thing –pun intended– and I want to move on. This model marks a bit of a pivot in my journey. Before this I was just doing general models that I thought (and still think) are cool, but moving forward, I think I'll try to be a bit more structured and actually start working away at some of the ideas I have listed.
+
+### SIR Models 2.0
+
+#### Description
+I think I kind of messed up with the stucture of these entries. Moving foraward I think I will just combine this one with that one ^. Or maybe not 🤷‍♂️. We'll see. I put this model under sir model 2.0 because its literally the exact same thing, just with an extra term V. A percentage of the Susceptible group gets added to the V group based on the vaccination rate and the vaccine efficacy rate. Then a small percentage of the vaccinated group gets added back into the Susceptible group due to Vaccination wearoff. Other than that, this is JUST the SIR model. Ngl I'm incredibly underwhelmed, and I'm not sure how I feel about this structure. Should I put all the SIR models under one entry? Or should I lengthen this out make it its own seperate entry 🤷🏻‍♂️.
