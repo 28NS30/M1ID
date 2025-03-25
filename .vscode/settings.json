@@ -6,6 +6,7 @@
         "string": "cpp",
         "string_view": "cpp",
         "iostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "fstream": "cpp"
     }
 }
